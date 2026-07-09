@@ -4,11 +4,5 @@
     "api/**/*": {
       "includeFiles": "{data/**,public/**}"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/assets/(.*)",
-      "destination": "/api/catchall"
-    }
-  ]
+  }
 }

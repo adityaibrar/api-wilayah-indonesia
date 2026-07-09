@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "cd docs && bun install && bun run build && cp ../public/index.html ../index.html",
+    "build": "cd docs && bun install && bun run build",
     "dev": "bun run --watch src/local.ts",
     "start:local": "bun run src/local.ts"
   },
