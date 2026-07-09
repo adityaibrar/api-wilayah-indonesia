@@ -4,5 +4,11 @@
     "api/**/*": {
       "includeFiles": "{data/**,public/**}"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(?!api)(.*)",
+      "destination": "/api/static"
+    }
+  ]
 }
