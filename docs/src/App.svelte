@@ -1,5 +1,5 @@
 <script lang="ts">
-  const baseUrl = "http://locskjdfhsdkfjalhost:3000/api";
+  const baseUrl = "http://localhost:3000/api";
   
   const endpoints = [
     {
@@ -112,7 +112,7 @@
         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-800 to-slate-950 text-white flex items-center justify-center font-bold text-lg shadow-sm">
           ID
         </div>
-        <h1 class="font-semibold text-lg tracking-tight text-slate-900">API Wilayah Indonesia</h1>
+        <h1 class="font-semibold text-lg tracking-tight text-slate-900">API Wilayah Indonesia tanah air beta</h1>
       </div>
       <a href="https://github.com/adityaibrar/api-wilayah-indonesia" target="_blank" class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">
         GitHub
