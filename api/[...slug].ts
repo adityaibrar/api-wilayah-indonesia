@@ -6,7 +6,7 @@ export default async function handler(req: any, res: any) {
     const rawUrl = (req.url || "/").split("?")[0];
     
     // 1. If it's an API route, pass to Elysia
-    if (rawUrl.startsWith("/api") && rawUrl !== "/api/catchall") {
+    if (rawUrl.startsWith("/api") && !rawUrl.startsWith("/api/docs") && !rawUrl.startsWith("/api/assets")) {
       const { app } = await import('../src/app.js');
       
       const protocol = req.headers['x-forwarded-proto'] || 'http';
@@ -36,7 +36,10 @@ export default async function handler(req: any, res: any) {
     }
     
     // 2. Otherwise, serve static files (SPA)
-    const urlPath = rawUrl === '/' || rawUrl === '' ? '/index.html' : rawUrl;
+    let urlPath = rawUrl;
+    if (urlPath === '/api/docs' || urlPath === '/' || urlPath === '') urlPath = '/index.html';
+    if (urlPath.startsWith('/api/assets/')) urlPath = urlPath.replace('/api/assets/', '/assets/');
+    
     const filePath = path.join(process.cwd(), 'public', urlPath);
     
     if (fs.existsSync(filePath)) {

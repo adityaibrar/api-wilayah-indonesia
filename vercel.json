@@ -4,5 +4,9 @@
     "api/**/*": {
       "includeFiles": "{data/**,public/**}"
     }
-  }
+  },
+  "redirects": [
+    { "source": "/", "destination": "/api/docs", "permanent": true },
+    { "source": "/assets/(.*)", "destination": "/api/assets/$1", "permanent": true }
+  ]
 }
