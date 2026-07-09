@@ -1,5 +1,5 @@
 <script lang="ts">
-  const baseUrl = "http://localhost:3000/api";
+  const baseUrl = "http://locskjdfhsdkfjalhost:3000/api";
   
   const endpoints = [
     {
