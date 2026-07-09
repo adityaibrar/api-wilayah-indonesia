@@ -6,7 +6,9 @@
     }
   },
   "redirects": [
-    { "source": "/", "destination": "/api/docs", "permanent": true },
-    { "source": "/assets/(.*)", "destination": "/api/assets/$1", "permanent": true }
+    { "source": "/", "destination": "/api/docs", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/assets/(.*)", "destination": "/api/assets?file=$1" }
   ]
 }

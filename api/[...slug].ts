@@ -3,10 +3,12 @@ import path from "path";
 
 export default async function handler(req: any, res: any) {
   try {
-    const rawUrl = (req.url || "/").split("?")[0];
+    const rawUrl = req.url || "/";
+    const urlObj = new URL(rawUrl, "http://localhost");
+    let urlPath = urlObj.pathname;
     
     // 1. If it's an API route, pass to Elysia
-    if (rawUrl.startsWith("/api") && !rawUrl.startsWith("/api/docs") && !rawUrl.startsWith("/api/assets")) {
+    if (urlPath.startsWith("/api") && !urlPath.startsWith("/api/docs") && !urlPath.startsWith("/api/assets")) {
       const { app } = await import('../src/app.js');
       
       const protocol = req.headers['x-forwarded-proto'] || 'http';
@@ -36,9 +38,13 @@ export default async function handler(req: any, res: any) {
     }
     
     // 2. Otherwise, serve static files (SPA)
-    let urlPath = rawUrl;
     if (urlPath === '/api/docs' || urlPath === '/' || urlPath === '') urlPath = '/index.html';
-    if (urlPath.startsWith('/api/assets/')) urlPath = urlPath.replace('/api/assets/', '/assets/');
+    if (urlPath === '/api/assets') {
+      const fileParam = urlObj.searchParams.get("file");
+      if (fileParam) {
+        urlPath = '/assets/' + fileParam;
+      }
+    }
     
     const filePath = path.join(process.cwd(), 'public', urlPath);
     
