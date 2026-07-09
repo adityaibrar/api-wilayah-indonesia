@@ -4,15 +4,5 @@
     "api/**/*": {
       "includeFiles": "{data/**,public/**}"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/[...slug]"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/api/static"
-    }
-  ]
+  }
 }
