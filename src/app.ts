@@ -13,6 +13,14 @@ import {
 
 export const app = new Elysia()
   .use(cors())
+  .onError(({ code, error }) => {
+    return {
+      status: false,
+      code,
+      message: (error as Error).message || "Unknown error",
+      stack: (error as Error).stack
+    };
+  })
   .group("/api", (app) =>
     app
       .get(
