@@ -1,6 +1,4 @@
 import { app } from '../src/app';
 
-// Vercel Edge/Node Web Standard Request Handler
-export default function handler(request: Request) {
-  return app.handle(request);
-}
+// Vercel Web Standard Request / Node Request Handler
+export default app.handle;

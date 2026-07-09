@@ -1,5 +1,6 @@
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { node } from "@elysiajs/node";
 import {
   getProvinces,
   getSortedProvincesByName,
@@ -11,7 +12,9 @@ import {
   getVillagesByDistrictId,
 } from "./lib/data";
 
-export const app = new Elysia()
+const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
+
+export const app = new Elysia({ adapter: isNode ? node() : undefined })
   .use(cors())
   .onError(({ code, error }) => {
     return {
