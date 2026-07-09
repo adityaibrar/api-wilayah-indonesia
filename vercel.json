@@ -7,10 +7,6 @@
   },
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/api/catchall"
-    },
-    {
       "source": "/assets/(.*)",
       "destination": "/api/catchall"
     }
