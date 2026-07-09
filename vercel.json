@@ -7,8 +7,8 @@
   },
   "rewrites": [
     {
-      "source": "/(?!api)(.*)",
-      "destination": "/api/static"
+      "source": "/(.*)",
+      "destination": "/api/catchall"
     }
   ]
 }
