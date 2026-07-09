@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
 import { staticPlugin } from "@elysiajs/static";
-import { app } from "./app";
+import { app } from "./app.js";
 
 const server = new Elysia()
   // Melayani file statis hasil build dari Svelte SPA di folder public

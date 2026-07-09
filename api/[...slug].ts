@@ -1,7 +1,7 @@
+import { app } from '../src/app.js';
+
 export default async function handler(req: any, res: any) {
   try {
-    const { app } = await import('../src/app');
-    
     // Convert Node IncomingMessage to Web Request
     const protocol = req.headers['x-forwarded-proto'] || 'http';
     const host = req.headers['x-forwarded-host'] || req.headers.host || 'localhost';

@@ -10,7 +10,7 @@ import {
   getDistrictsByCityId,
   getVillages,
   getVillagesByDistrictId,
-} from "./lib/data";
+} from "./lib/data.js";
 
 const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
 
