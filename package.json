@@ -1,0 +1,23 @@
+{
+  "name": "api-wilayah-indonesia",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "cd docs && bun install && bun run build",
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.4.2",
+    "@elysiajs/static": "^1.4.10",
+    "csv-parse": "^7.0.1",
+    "elysia": "^1.4.29"
+  }
+}
