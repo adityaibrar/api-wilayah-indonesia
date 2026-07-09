@@ -1,10 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { fileURLToPath } from "url"
 import { parse } from "csv-parse/sync"
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 // Define types for our data
 export interface Province {
@@ -32,8 +28,15 @@ export interface Village {
 
 // Function to read and parse CSV files
 function readCSV<T>(filePath: string): T[] {
-  // __dirname akan berada di src/lib, jadi kita naik dua tingkat ke root
-  const fullPath = path.join(__dirname, "../../", filePath)
+  let fullPath = path.join(process.cwd(), filePath);
+  
+  // Vercel Serverless Fallbacks
+  if (!fs.existsSync(fullPath)) {
+    if (fs.existsSync(path.join(process.cwd(), "..", filePath))) {
+      fullPath = path.join(process.cwd(), "..", filePath);
+    }
+  }
+  
   const fileContent = fs.readFileSync(fullPath, "utf8")
   return parse(fileContent, {
     columns: true,
