@@ -1,3 +1,3 @@
-export default function handler(request: Request) {
-  return new Response("Hello from Vercel Serverless!", { status: 200 });
+export default function handler(req: any, res: any) {
+  res.status(200).send("Hello from Vercel Node req/res!");
 }
