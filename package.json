@@ -6,7 +6,7 @@
   "scripts": {
     "build": "cd docs && bun install && bun run build",
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start:local": "bun run src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
