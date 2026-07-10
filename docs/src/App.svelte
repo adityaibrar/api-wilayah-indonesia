@@ -1,5 +1,5 @@
 <script lang="ts">
-  const baseUrl = "https://api-wilayah-indonesia.vercel.app/api";
+  const baseUrl = "https://api-wilayah-indonesia-v1.vercel.app/api";
   
   const endpoints = [
     {
