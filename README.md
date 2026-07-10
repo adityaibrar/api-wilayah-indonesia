@@ -1,15 +1,96 @@
-# api-wilayah-indonesia
+# 🇮🇩 API Wilayah Indonesia
 
-To install dependencies:
+API RESTful yang cepat dan ringan untuk mendapatkan data wilayah administrasi di Indonesia mulai dari tingkat Provinsi, Kota/Kabupaten, Kecamatan, hingga Kelurahan/Desa. Proyek ini dibangun dengan performa tinggi menggunakan [Bun](https://bun.com) dan [ElysiaJS](https://elysiajs.com/).
 
+---
+
+## 🚀 Dokumentasi & Live API
+
+Kamu bisa langsung mencoba endpoint API dan melihat dokumentasi lengkapnya secara interaktif (dibangun dengan Svelte):
+
+👉 **[Dokumentasi API Wilayah Indonesia](https://api-wilayah-indonesia-v1.vercel.app/api/docs)**
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Runtime:** [Bun](https://bun.com)
+- **API Framework:** [ElysiaJS](https://elysiajs.com)
+- **Frontend Docs:** Svelte + Tailwind CSS
+
+---
+
+## 📦 Menjalankan Secara Lokal (Local Development)
+
+Tertarik untuk mencoba API ini di komputermu sendiri atau ingin berkontribusi? Ikuti langkah-langkah mudah berikut:
+
+### Prasyarat
+Pastikan kamu telah menginstal **Bun**. Jika belum, jalankan perintah berikut di terminal:
 ```bash
-bun install
+curl -fsSL https://bun.sh/install | bash
 ```
 
-To run:
+### Instalasi & Menjalankan Server
+1. **Clone repository ini**
+   ```bash
+   git clone https://github.com/adityaibrar/api-wilayah-indonesia.git
+   cd api-wilayah-indonesia
+   ```
 
-```bash
-bun run index.ts
-```
+2. **Install dependensi**
+   ```bash
+   bun install
+   ```
 
-This project was created using `bun init` in bun v1.2.23. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+3. **Jalankan server mode *development* (Hot Reload)**
+   ```bash
+   bun run dev
+   ```
+   *Server akan berjalan di `http://localhost:3000`.*
+
+---
+
+## 📖 Ringkasan Endpoint
+
+Berikut adalah daftar endpoint API yang tersedia. Seluruh *response* dikembalikan dalam format JSON.
+
+| Endpoint | Method | Deskripsi | Query Parameter (Opsional) |
+|----------|--------|-----------|----------------------------|
+| `/api/provinces` | `GET` | Mendapatkan semua provinsi | `sort=name` |
+| `/api/cities` | `GET` | Mendapatkan daftar kota/kabupaten | `provinceId`, `sort=name` |
+| `/api/districts` | `GET` | Mendapatkan daftar kecamatan | `cityId`, `sort=name` |
+| `/api/villages` | `GET` | Mendapatkan daftar kelurahan/desa | `districtId`, `sort=name` |
+
+---
+
+## 🤝 Panduan Berkontribusi (Contributing)
+
+Proyek ini sangat terbuka untuk *open-source*! Semua orang bisa ikut berkontribusi, baik itu memperbaiki *bug*, menambah fitur baru (seperti kodepos), atau sekadar merapikan dokumentasi.
+
+Berikut cara untuk mulai berkontribusi:
+
+1. **Fork** repository ini di pojok kanan atas halaman GitHub.
+2. **Clone** hasil fork ke komputermu.
+3. Buat **branch** baru untuk pengerjaanmu:
+   ```bash
+   git checkout -b feat/nama-fitur-baru
+   # atau untuk perbaikan: git checkout -b fix/nama-bug
+   ```
+4. Lakukan perubahan kode. **Aturan penting:**
+   - Gunakan gaya arsitektur yang sudah ada, buat kode tetap bersih (Clean Code), semantik, dan mudah di-debug (terapkan prinsip SOLID, DRY, dan KISS).
+   - Jangan lupa untuk memberikan komentar pada blok kode yang cukup rumit.
+5. **Commit** perubahanmu. Sesuai aturan standar kami, **pesan commit WAJIB menggunakan bahasa Inggris** dan mengikuti pola [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+   ```bash
+   git commit -m "feat: add postal code search endpoint"
+   ```
+6. **Push** ke branch tersebut:
+   ```bash
+   git push origin feat/nama-fitur-baru
+   ```
+7. Buka halaman utama repository ini lalu ajukan **Pull Request (PR)**. Jelaskan dengan runtut perubahan yang kamu bawa.
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dilindungi oleh lisensi [MIT](LICENSE). Kamu bebas untuk menggunakan, memodifikasi, dan mendistribusikan ulang, namun harap tetap mencantumkan lisensi asli dari pembuat.
