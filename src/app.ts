@@ -5,14 +5,17 @@ import {
   getProvinces,
   getSortedProvincesByName,
   getCities,
-  getCitiesByProvinceId,
+  getCitiesByProvinceCode,
   getDistricts,
-  getDistrictsByCityId,
+  getDistrictsByCityCode,
   getVillages,
-  getVillagesByDistrictId,
+  getVillagesByDistrictCode,
 } from "./lib/data.js";
 
-const isNode = typeof process !== "undefined" && process.versions != null && process.versions.node != null;
+const isNode =
+  typeof process !== "undefined" &&
+  process.versions != null &&
+  process.versions.node != null;
 
 export const app = new Elysia({ adapter: isNode ? node() : undefined })
   .use(cors())
@@ -21,19 +24,22 @@ export const app = new Elysia({ adapter: isNode ? node() : undefined })
       status: false,
       code,
       message: (error as Error).message || "Unknown error",
-      stack: (error as Error).stack
+      stack: (error as Error).stack,
     };
   })
   .group("/api", (app) =>
     app
+      // ─── Provinces ───────────────────────────────────────────────
       .get(
         "/provinces",
         ({ query: { sort } }) => {
-          const data = sort === "name" ? getSortedProvincesByName() : getProvinces();
+          const data =
+            sort === "name" ? getSortedProvincesByName() : getProvinces();
           return {
             status: true,
-            statusCode: 200,
+            status_code: 200,
             message: "Provinces retrieved successfully",
+            total: data.length,
             data,
           };
         },
@@ -43,66 +49,87 @@ export const app = new Elysia({ adapter: isNode ? node() : undefined })
           }),
         }
       )
+
+      // ─── Cities ──────────────────────────────────────────────────
       .get(
         "/cities",
-        ({ query: { sort, provinceId } }) => {
-          let data = provinceId ? getCitiesByProvinceId(provinceId) : getCities();
+        ({ query: { sort, province_code } }) => {
+          let data = province_code
+            ? getCitiesByProvinceCode(province_code)
+            : getCities();
           if (sort === "name") {
-             data = [...data].sort((a, b) => a.name.localeCompare(b.name, 'id'));
+            data = [...data].sort((a, b) =>
+              a.name.localeCompare(b.name, "id")
+            );
           }
           return {
             status: true,
-            statusCode: 200,
+            status_code: 200,
             message: "Cities retrieved successfully",
+            total: data.length,
             data,
           };
         },
         {
           query: t.Object({
             sort: t.Optional(t.String()),
-            provinceId: t.Optional(t.String()),
+            province_code: t.Optional(t.String()),
           }),
         }
       )
+
+      // ─── Districts ───────────────────────────────────────────────
       .get(
         "/districts",
-        ({ query: { sort, cityId } }) => {
-          let data = cityId ? getDistrictsByCityId(cityId) : getDistricts();
+        ({ query: { sort, city_code } }) => {
+          let data = city_code
+            ? getDistrictsByCityCode(city_code)
+            : getDistricts();
           if (sort === "name") {
-             data = [...data].sort((a, b) => a.name.localeCompare(b.name, 'id'));
+            data = [...data].sort((a, b) =>
+              a.name.localeCompare(b.name, "id")
+            );
           }
           return {
             status: true,
-            statusCode: 200,
+            status_code: 200,
             message: "Districts retrieved successfully",
+            total: data.length,
             data,
           };
         },
         {
           query: t.Object({
             sort: t.Optional(t.String()),
-            cityId: t.Optional(t.String()),
+            city_code: t.Optional(t.String()),
           }),
         }
       )
+
+      // ─── Villages ────────────────────────────────────────────────
       .get(
         "/villages",
-        ({ query: { sort, districtId } }) => {
-          let data = districtId ? getVillagesByDistrictId(districtId) : getVillages();
+        ({ query: { sort, district_code } }) => {
+          let data = district_code
+            ? getVillagesByDistrictCode(district_code)
+            : getVillages();
           if (sort === "name") {
-             data = [...data].sort((a, b) => a.name.localeCompare(b.name, 'id'));
+            data = [...data].sort((a, b) =>
+              a.name.localeCompare(b.name, "id")
+            );
           }
           return {
             status: true,
-            statusCode: 200,
+            status_code: 200,
             message: "Villages retrieved successfully",
+            total: data.length,
             data,
           };
         },
         {
           query: t.Object({
             sort: t.Optional(t.String()),
-            districtId: t.Optional(t.String()),
+            district_code: t.Optional(t.String()),
           }),
         }
       )

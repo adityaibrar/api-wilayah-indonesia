@@ -2,41 +2,44 @@ import fs from "fs"
 import path from "path"
 import { parse } from "csv-parse/sync"
 
-// Define types for our data
+// ─── Types ───────────────────────────────────────────────────────────────────
+
 export interface Province {
-  id: string
+  code: string
   name: string
 }
 
 export interface City {
-  id: string
-  provinceId: string
+  code: string
+  province_code: string
   name: string
 }
 
 export interface District {
-  id: string
-  cityId: string
+  code: string
+  city_code: string
   name: string
 }
 
 export interface Village {
-  id: string
-  districtId: string
+  code: string
+  district_code: string
   name: string
 }
 
-// Function to read and parse CSV files
+// ─── CSV Reader ───────────────────────────────────────────────────────────────
+
 function readCSV<T>(filePath: string): T[] {
-  let fullPath = path.join(process.cwd(), filePath);
-  
-  // Vercel Serverless Fallbacks
+  let fullPath = path.join(process.cwd(), filePath)
+
+  // Vercel Serverless Fallback
   if (!fs.existsSync(fullPath)) {
-    if (fs.existsSync(path.join(process.cwd(), "..", filePath))) {
-      fullPath = path.join(process.cwd(), "..", filePath);
+    const parentPath = path.join(process.cwd(), "..", filePath)
+    if (fs.existsSync(parentPath)) {
+      fullPath = parentPath
     }
   }
-  
+
   const fileContent = fs.readFileSync(fullPath, "utf8")
   return parse(fileContent, {
     columns: true,
@@ -44,13 +47,15 @@ function readCSV<T>(filePath: string): T[] {
   }) as T[]
 }
 
-// Cache the data to avoid reading the files multiple times
+// ─── Cache ────────────────────────────────────────────────────────────────────
+
 let provincesCache: Province[] | null = null
 let citiesCache: City[] | null = null
 let districtsCache: District[] | null = null
 let villagesCache: Village[] | null = null
 
-// Get all provinces
+// ─── Provinces ────────────────────────────────────────────────────────────────
+
 export function getProvinces(): Province[] {
   if (!provincesCache) {
     provincesCache = readCSV<Province>("data/provinces.csv")
@@ -58,15 +63,18 @@ export function getProvinces(): Province[] {
   return provincesCache
 }
 
-// Get sorted provinces by name
 export function getSortedProvincesByName(): Province[] {
-  const provinces = getProvinces()
-  return [...provinces].sort((a, b) => 
-    a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'id')
+  return [...getProvinces()].sort((a, b) =>
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase(), "id")
   )
 }
 
-// Get all cities
+export function getProvinceByCode(code: string): Province | undefined {
+  return getProvinces().find((p) => p.code === code)
+}
+
+// ─── Cities ───────────────────────────────────────────────────────────────────
+
 export function getCities(): City[] {
   if (!citiesCache) {
     citiesCache = readCSV<City>("data/cities.csv")
@@ -74,21 +82,16 @@ export function getCities(): City[] {
   return citiesCache
 }
 
-// Get cities by province ID
-export function getCitiesByProvinceId(provinceId: string): City[] {
-  const cities = getCities()
-  return cities.filter((city) => city.provinceId === provinceId)
+export function getCitiesByProvinceCode(province_code: string): City[] {
+  return getCities().filter((c) => c.province_code === province_code)
 }
 
-// Get sorted cities by province ID and name
-export function getSortedCitiesByProvinceId(provinceId: string): City[] {
-  const cities = getCitiesByProvinceId(provinceId)
-  return [...cities].sort((a, b) => 
-    a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'id')
-  )
+export function getCityByCode(code: string): City | undefined {
+  return getCities().find((c) => c.code === code)
 }
 
-// Get all districts
+// ─── Districts ────────────────────────────────────────────────────────────────
+
 export function getDistricts(): District[] {
   if (!districtsCache) {
     districtsCache = readCSV<District>("data/districts.csv")
@@ -96,21 +99,16 @@ export function getDistricts(): District[] {
   return districtsCache
 }
 
-// Get districts by city ID
-export function getDistrictsByCityId(cityId: string): District[] {
-  const districts = getDistricts()
-  return districts.filter((district) => district.cityId === cityId)
+export function getDistrictsByCityCode(city_code: string): District[] {
+  return getDistricts().filter((d) => d.city_code === city_code)
 }
 
-// Get sorted districts by city ID and name
-export function getSortedDistrictsByCityId(cityId: string): District[] {
-  const districts = getDistrictsByCityId(cityId)
-  return [...districts].sort((a, b) => 
-    a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'id')
-  )
+export function getDistrictByCode(code: string): District | undefined {
+  return getDistricts().find((d) => d.code === code)
 }
 
-// Get all villages
+// ─── Villages ─────────────────────────────────────────────────────────────────
+
 export function getVillages(): Village[] {
   if (!villagesCache) {
     villagesCache = readCSV<Village>("data/villages.csv")
@@ -118,40 +116,10 @@ export function getVillages(): Village[] {
   return villagesCache
 }
 
-// Get villages by district ID
-export function getVillagesByDistrictId(districtId: string): Village[] {
-  const villages = getVillages()
-  return villages.filter((village) => village.districtId === districtId)
+export function getVillagesByDistrictCode(district_code: string): Village[] {
+  return getVillages().filter((v) => v.district_code === district_code)
 }
 
-// Get sorted villages by district ID and name
-export function getSortedVillagesByDistrictId(districtId: string): Village[] {
-  const villages = getVillagesByDistrictId(districtId)
-  return [...villages].sort((a, b) => 
-    a.name.toLowerCase().localeCompare(b.name.toLowerCase(), 'id')
-  )
-}
-
-// Get province by ID
-export function getProvinceById(id: string): Province | undefined {
-  const provinces = getProvinces()
-  return provinces.find((province) => province.id === id)
-}
-
-// Get city by ID
-export function getCityById(cityId: string): City | undefined {
-  const cities = getCities()
-  return cities.find((city) => city.id === cityId)
-}
-
-// Get district by ID
-export function getDistrictById(id: string): District | undefined {
-  const districts = getDistricts()
-  return districts.find((district) => district.id === id)
-}
-
-// Get village by ID
-export function getVillageById(id: string): Village | undefined {
-  const villages = getVillages()
-  return villages.find((village) => village.id === id)
+export function getVillageByCode(code: string): Village | undefined {
+  return getVillages().find((v) => v.code === code)
 }
