@@ -4,6 +4,19 @@ API RESTful yang cepat dan ringan untuk mendapatkan data wilayah administrasi di
 
 ---
 
+## 📊 Sumber Data
+
+Data wilayah yang digunakan bersumber dari **[SalzBytes/wilayah_indonesia](https://github.com/SalzBytes/wilayah_indonesia)**, yang mengacu pada data resmi **Badan Pusat Statistik (BPS) Republik Indonesia**.
+
+| Level | Jumlah | Format Kode |
+|-------|-------:|-------------|
+| Provinsi | **38** | 2 digit (e.g., `11` = Aceh) |
+| Kabupaten/Kota | **514** | 4 digit (e.g., `1101` = Kab. Simeulue) |
+| Kecamatan | **7.289** | 7 digit (e.g., `1101010`) |
+| Kelurahan/Desa | **84.308** | 10 digit (e.g., `1101010001`) |
+
+---
+
 ## 🚀 Dokumentasi & Live API
 
 Kamu bisa langsung mencoba endpoint API dan melihat dokumentasi lengkapnya secara interaktif (dibangun dengan Svelte):
@@ -57,9 +70,11 @@ Berikut adalah daftar endpoint API yang tersedia. Seluruh *response* dikembalika
 | Endpoint | Method | Deskripsi | Query Parameter (Opsional) |
 |----------|--------|-----------|----------------------------|
 | `/api/provinces` | `GET` | Mendapatkan semua provinsi | `sort=name` |
-| `/api/cities` | `GET` | Mendapatkan daftar kota/kabupaten | `provinceId`, `sort=name` |
-| `/api/districts` | `GET` | Mendapatkan daftar kecamatan | `cityId`, `sort=name` |
-| `/api/villages` | `GET` | Mendapatkan daftar kelurahan/desa | `districtId`, `sort=name` |
+| `/api/cities` | `GET` | Mendapatkan daftar kota/kabupaten | `province_code`, `sort=name` |
+| `/api/districts` | `GET` | Mendapatkan daftar kecamatan | `city_code`, `sort=name` |
+| `/api/villages` | `GET` | Mendapatkan daftar kelurahan/desa | `district_code`, `sort=name` |
+
+> **Catatan:** Seluruh kode wilayah yang digunakan mengikuti standar kode BPS resmi.
 
 ---
 
